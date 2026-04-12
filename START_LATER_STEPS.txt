@@ -1,0 +1,96 @@
+SMART CLASSROOM ATTENTION MONITOR - START LATER CHECKLIST
+Turn on venv 
+& .venv\Scripts\Activate.ps1
+Date: 2026-04-12
+Project folder: C:\Users\tasne\Desktop\IoT
+
+==================================================
+1) QUICK START (SIMULATION MODE)
+==================================================
+
+Step 1: Open terminal in project folder
+- cd C:\Users\tasne\Desktop\IoT
+
+Step 2: Install dependencies
+- C:/Users/tasne/scoop/shims/python3.exe -m pip install -r requirements.txt
+
+Step 3: Start backend API
+- C:/Users/tasne/scoop/shims/python3.exe -m uvicorn app.main:app --reload --port 8000
+
+Step 4: In a second terminal, start simulator
+- C:/Users/tasne/scoop/shims/python3.exe simulator/publisher.py
+
+Step 5: Open dashboard
+- http://127.0.0.1:8000
+
+Step 6: Health checks
+- curl.exe -s http://127.0.0.1:8000/health
+- curl.exe -s http://127.0.0.1:8000/api/snapshot
+
+
+==================================================
+2) HOW THE CURRENT PROJECT WORKS
+==================================================
+
+- simulator/publisher.py generates synthetic classroom telemetry.
+- app/main.py receives telemetry at POST /api/ingest.
+- app/main.py computes attention score and band (high/medium/low).
+- web dashboard reads live data from websocket /ws/classroom.
+
+
+==================================================
+3) UPGRADE TO REAL CAMERA (IOT DEVICE)
+==================================================
+
+Goal: Replace simulator data with real camera-derived metrics.
+
+A) Keep backend unchanged
+- Continue using POST /api/ingest in app/main.py.
+- Continue sending these fields:
+  student_id, timestamp, gaze_focus, head_motion, ambient_noise, blink_rate
+
+B) Replace simulator with camera publisher
+- Create a new script (example: simulator/camera_publisher.py).
+- Capture frames from camera on device.
+- Estimate per student (or single subject first):
+  1) gaze_focus (0..1)
+  2) head_motion (0..1)
+  3) blink_rate (blinks/min)
+- Send JSON payload every 0.5 to 1 second to /api/ingest.
+
+C) Suggested Python packages for camera pipeline
+- opencv-python
+- mediapipe
+- numpy
+
+D) If camera runs on another device
+- Change API URL from localhost to PC LAN IP.
+- Example:
+  API_URL = "http://192.168.1.50:8000/api/ingest"
+- Ensure firewall allows inbound port 8000.
+
+E) Ambient noise options
+- Temporary: set a fixed value (example 0.2).
+- Later: add microphone sensor and compute real ambient_noise.
+
+
+==================================================
+4) NEXT IMPLEMENTATION TODO
+==================================================
+
+1. Add camera_publisher.py using OpenCV + MediaPipe.
+2. Add requirements for camera packages.
+3. Add optional calibration config file.
+4. Test end-to-end from camera to dashboard.
+5. Add privacy controls (consent, retention policy, anonymization).
+
+
+==================================================
+5) COMMON ERROR REMINDER
+==================================================
+
+Wrong:
+- -r requirements.txt
+
+Correct:
+- C:/Users/tasne/scoop/shims/python3.exe -m pip install -r requirements.txt

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Classroom Attention Monitor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/web/styles.css" />
+</head>
+<body>
+  <div class="bg-glow glow-1"></div>
+  <div class="bg-glow glow-2"></div>
+
+  <main class="container">
+    <header class="hero">
+      <h1>Smart Classroom Attention Monitor</h1>
+      <p>Live IoT telemetry simulation with real-time attention scoring.</p>
+    </header>
+
+    <section class="stats">
+      <article class="card">
+        <h2>Students Online</h2>
+        <div id="studentCount" class="metric">0</div>
+      </article>
+      <article class="card">
+        <h2>Average Attention</h2>
+        <div id="avgAttention" class="metric">0%</div>
+      </article>
+      <article class="card warn">
+        <h2>Low Attention</h2>
+        <div id="lowAttention" class="metric">0</div>
+      </article>
+    </section>
+
+    <section class="card table-wrap">
+      <div class="table-head">
+        <h2>Live Student Feed</h2>
+        <small id="lastUpdated">Waiting for data...</small>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Student</th>
+            <th>Score</th>
+            <th>Band</th>
+            <th>Gaze</th>
+            <th>Motion</th>
+            <th>Noise</th>
+            <th>Blink</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="/web/app.js"></script>
+</body>
+</html>
