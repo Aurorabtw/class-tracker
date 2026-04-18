@@ -39,5 +39,8 @@ Thumbs.db
 .env
 .env.*
 
+# Firebase/Google service account credentials
+serviceAccountKey.json
+
 # Jupyter
 .ipynb_checkpoints/
